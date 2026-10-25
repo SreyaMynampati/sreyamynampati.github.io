@@ -1,29 +1,219 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Projects</title>
-  <link rel="stylesheet" href="base.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projects</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#e4e4e7; --surface:#f5f5f6; --ink:#1c1c1f; --muted:#5f6065; --line:#cacace;
+  --accent:#3b3d46; --accent-soft:#d8d8dd; --signal:#b4470f;
+  --serif:'Instrument Serif',Georgia,serif; --sans:'IBM Plex Sans',system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#151517; --surface:#1e1e21; --ink:#ececee; --muted:#a0a0a6; --line:#34343a; --accent:#c6c8d1; --accent-soft:#2b2b31; --signal:#f2a272;}
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--sans)}
+.wrap{max-width:1040px;margin:0 auto;padding:64px 24px 96px}
+header h1{font:400 clamp(44px,8vw,84px)/1 var(--serif);margin:0 0 16px;letter-spacing:-.01em}
+header p{max-width:60ch;color:var(--muted);font-size:18px;margin:0}
+
+.headline{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin:40px 0 56px}
+.headline div{background:var(--surface);padding:22px 20px}
+.headline b{display:block;font:400 clamp(34px,5vw,48px)/1 var(--serif);color:var(--signal)}
+.headline span{font-size:14px;color:var(--muted)}
+
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+.filters button{font:500 14px var(--sans);padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+button:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+.project{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:28px;margin-bottom:20px;display:grid;grid-template-columns:1fr;gap:16px}
+.project[hidden]{display:none}
+.project h2{font:400 28px/1.15 var(--serif);margin:0}
+.project p{margin:0;max-width:68ch;color:var(--muted)}
+.project.feature{border-left:5px solid var(--accent)}
+.project.feature h2{font-size:34px}
+.metrics{display:flex;flex-wrap:wrap;gap:10px 28px;padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.metrics div{min-width:120px}
+.metrics b{display:block;font:400 30px/1.1 var(--serif);color:var(--signal)}
+.metrics span{font-size:13px;color:var(--muted)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:0;padding:0}
+.tags li{font-size:13px;background:var(--accent-soft);color:var(--accent);padding:3px 10px;border-radius:4px}
+.venue{display:inline-block;font-size:13px;font-weight:600;color:var(--signal)}
+.links a{font-weight:600;color:var(--accent);text-decoration:underline;text-underline-offset:4px;margin-right:20px}
+.links a:hover{color:var(--signal)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.grid .project{margin:0;align-content:start}
+.grid .project h2{font-size:23px}
+@media (max-width:560px){.project{padding:20px}.project.feature h2{font-size:28px}}
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>Projects</h1>
+<div class="wrap">
+<header>
+  <h1>Projects</h1>
+  <p>Systems that run fast, models that hold up out of sample, and research that has been peer-reviewed. Results first, then how I got there.</p>
+</header>
 
-    <h2>Voice-Assisted Embedded AI System</h2>
-    <p>HFT-X is a high-frequency trading engine featuring a custom UDP market data feed capable of streaming 100K+ msgs/sec into a real-time order book and matching engine. The system achieves sub-1ms tick-to-trade latency (p99) using optimized in-memory data structures, non-blocking I/O, and microsecond-level event processing.
-    </p>
+<section class="headline" aria-label="Headline results">
+  <div><b>291K</b><span>orders per second in a custom matching engine</span></div>
+  <div><b>1.9 µs</b><span>order latency</span></div>
+  <div><b>0.7957</b><span>walk-forward ROC-AUC across 8 equity pairs</span></div>
+  <div><b>12.59M</b><span>option prices per second</span></div>
+</section>
 
-    <div class="sep"></div>
+<div class="filters" role="group" aria-label="Filter projects">
+  <button type="button" data-f="all" aria-pressed="true">All</button>
+  <button type="button" data-f="quant" aria-pressed="false">Quant &amp; trading</button>
+  <button type="button" data-f="published" aria-pressed="false">Published</button>
+  <button type="button" data-f="vision" aria-pressed="false">Vision &amp; health ML</button>
+</div>
 
-    <h2>Concept Drift Detection & Adaptive Retraining with XAI</h2>
-    <p>Built a multi-head YOLOv8 model for joint obstacle detection and pavement segmentation, cutting latency by 33%.
-        FastDepth on Jetson Nano for real-time monocular depth-8FPS,  context-aware audio navigation - visually impaired users.
-        Achieved 85.2% mAP (obstacles) and 85.9% mAP (curb segmentation) | Patent application in progress.</p>
+<main id="list">
 
-    <div class="sep"></div>
-
-    <h2>HFT-X: High-Frequency Trading Engine</h2>
-    <p>Designed a modular, async drift detection framework unifying statistical and ML-based detectors, reducing false drift alarms by 38% and improving true drift detection by 27% over single-method baselines.
-        Optimized feature-level explainability by selectively executing SHAP only post-drift, cutting explanation latency by 61%</p>
+<article class="project feature" data-cat="quant">
+  <h2>Ultra-Low-Latency Limit Order Book Simulator</h2>
+  <div class="metrics">
+    <div><b>291K</b><span>orders/sec</span></div>
+    <div><b>1.9 µs</b><span>latency</span></div>
+    <div><b>O(1)</b><span>order cancellation</span></div>
   </div>
+  <p>A C++23 matching engine built on slab allocation and cache-line-aligned structures. I tested a DQN agent against an Avellaneda–Stoikov baseline and added VPIN toxicity signals to improve performance under informed flow.</p>
+  <ul class="tags"><li>C++23</li><li>Reinforcement learning</li><li>Market making</li><li>VPIN</li></ul>
+  <div class="links"><a href="https://github.com/SreyaMynampati/lob-engine-hft" target="_blank" rel="noopener noreferrer">View on GitHub</a></div>
+</article>
+
+<article class="project feature" data-cat="quant">
+  <h2>Statistical Arbitrage with ML Signal Generation</h2>
+  <div class="metrics">
+    <div><b>0.7957</b><span>ROC-AUC</span></div>
+    <div><b>8</b><span>equity pairs</span></div>
+    <div><b>47</b><span>engineered features</span></div>
+  </div>
+  <p>A Random Forest and XGBoost ensemble, scored with walk-forward validation so results reflect out-of-sample behaviour. Risk is handled by HMM regime detection, Monte Carlo VaR, and Kelly-based position sizing.</p>
+  <ul class="tags"><li>Random Forest</li><li>XGBoost</li><li>HMM</li><li>Monte Carlo VaR</li><li>Kelly sizing</li></ul>
+  <div class="links"><a href="https://github.com/SreyaMynampati/statistical-arbitrage" target="_blank" rel="noopener noreferrer">View on GitHub</a></div>
+</article>
+
+<article class="project feature" data-cat="quant">
+  <h2>Stochastic Models &amp; Numerical Methods for Derivative Pricing</h2>
+  <div class="metrics">
+    <div><b>12.59M</b><span>prices/sec</span></div>
+    <div><b>0.600</b><span>median RMSE (vol points)</span></div>
+    <div><b>605</b><span>BTC option quotes, 11 expiries</span></div>
+  </div>
+  <p>A C++23 and Python pricing engine covering Black–Scholes valuation, Greeks, Cox–Ross–Rubinstein binomial trees, and Monte Carlo. Implied-volatility smiles are calibrated to live BTC option quotes.</p>
+  <ul class="tags"><li>C++23</li><li>Python</li><li>Black–Scholes</li><li>Binomial trees</li><li>Monte Carlo</li></ul>
+  <div class="links"><a href="https://github.com/SreyaMynampati/Options-Pricing-Engine" target="_blank" rel="noopener noreferrer">View on GitHub</a></div>
+</article>
+
+<article class="project" data-cat="published">
+  <span class="venue">Presented at CCNCPS 2026</span>
+  <h2>PROXI-NAV: Proximity-Aware Navigation</h2>
+  <p>Assistive navigation for visually impaired users, combining audio-visual sensing and AI. It detects obstacles, segments pavement and curbs, estimates depth from a single camera, and gives context-aware audio guidance.</p>
+  <ul class="tags"><li>Obstacle detection</li><li>Monocular depth</li><li>Segmentation</li><li>Audio guidance</li></ul>
+</article>
+
+<div class="grid">
+
+<article class="project" data-cat="published vision">
+  <span class="venue">Accepted at ICEI 2026</span>
+  <h2>Hybrid Deep Learning for ECG Arrhythmia Detection</h2>
+  <p>A hybrid classifier that combines CNN, quantum computing, and LSTM techniques to detect arrhythmia from cardiac signals.</p>
+  <ul class="tags"><li>CNN</li><li>Quantum</li><li>LSTM</li></ul>
+  <div class="links"><a href="https://ieeexplore.ieee.org/abstract/document/11447754" target="_blank" rel="noopener noreferrer">View publication</a></div>
+</article>
+
+<article class="project" data-cat="published">
+  <span class="venue">Published at CICT 2025</span>
+  <h2>Code Feature Extraction Using Abstract Syntax Trees</h2>
+  <p>Extracts abstract syntax tree features and classifies code with Random Forest.</p>
+  <ul class="tags"><li>AST</li><li>Random Forest</li></ul>
+  <div class="links"><a href="https://ieeexplore.ieee.org/abstract/document/11399040" target="_blank" rel="noopener noreferrer">View publication</a></div>
+</article>
+
+<article class="project" data-cat="published vision">
+  <span class="venue">Springer book chapter</span>
+  <h2>Voice-Based Parkinson’s Disease Classification</h2>
+  <p>Classifies Parkinson’s disease from voice-derived features using machine-learning methods.</p>
+  <ul class="tags"><li>Speech features</li><li>Classification</li></ul>
+  <div class="links"><a href="https://link.springer.com/chapter/10.1007/978-981-97-1111-6_17" target="_blank" rel="noopener noreferrer">View publication</a></div>
+</article>
+
+<article class="project" data-cat="published">
+  <h2>Concept Drift Detection &amp; Adaptive Retraining with XAI</h2>
+  <p>A framework that cuts false drift alarms and improves detection, using SHAP explanations selectively after drift events.</p>
+  <ul class="tags"><li>Drift detection</li><li>SHAP</li><li>Adaptive retraining</li></ul>
+</article>
+
+<article class="project" data-cat="vision">
+  <h2>3D MRI-Based Glioma Segmentation and Grading</h2>
+  <p>Hybrid deep learning architectures that segment and grade gliomas in volumetric brain MRI.</p>
+  <ul class="tags"><li>3D MRI</li><li>Segmentation</li></ul>
+</article>
+
+<article class="project" data-cat="vision">
+  <h2>Deepfake Detection</h2>
+  <p>Ensemble classifier built on transfer learning with VGG16 and ResNet50.</p>
+  <ul class="tags"><li>VGG16</li><li>ResNet50</li><li>Ensemble</li></ul>
+</article>
+
+<article class="project" data-cat="vision">
+  <h2>3D Point Cloud Segmentation</h2>
+  <p>Point-cloud segmentation for 3D scene understanding on KITTI and Semantic3D.</p>
+  <ul class="tags"><li>KITTI</li><li>Semantic3D</li></ul>
+</article>
+
+<article class="project" data-cat="vision">
+  <h2>Cityscapes Semantic Segmentation</h2>
+  <p>U-Net models for urban scene understanding on the Cityscapes dataset.</p>
+  <ul class="tags"><li>U-Net</li><li>Cityscapes</li></ul>
+</article>
+
+<article class="project" data-cat="applied">
+  <h2>Coral Reef Bleaching Prediction</h2>
+  <p>R-based analysis of the environmental factors linked to coral reef bleaching.</p>
+  <ul class="tags"><li>R</li><li>Prediction</li></ul>
+</article>
+
+<article class="project" data-cat="applied">
+  <h2>OTT Recommendation System</h2>
+  <p>Personalizes streaming suggestions from user preferences and content characteristics.</p>
+  <ul class="tags"><li>Recommenders</li></ul>
+</article>
+
+<article class="project" data-cat="applied">
+  <h2>RetroRacks — Thrift App</h2>
+  <p>A thrift-shopping app concept for discovering and browsing second-hand fashion.</p>
+  <ul class="tags"><li>Product concept</li></ul>
+</article>
+
+</div>
+</main>
+</div>
+
+<script>
+(function(){
+  var btns=document.querySelectorAll('.filters button');
+  var items=document.querySelectorAll('.project');
+  btns.forEach(function(b){
+    b.addEventListener('click',function(){
+      btns.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+      var f=b.getAttribute('data-f');
+      items.forEach(function(p){
+        var cats=p.getAttribute('data-cat').split(' ');
+        p.hidden=!(f==='all'||cats.indexOf(f)>-1);
+      });
+    });
+  });
+})();
+</script>
 </body>
 </html>
